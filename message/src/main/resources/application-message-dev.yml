@@ -1,0 +1,88 @@
+
+spring:
+  ### email
+  mail:
+    protocol: smtp
+    host: smtp.163.com
+    port: 465
+    username: xxx
+    password: xxx
+    test-connection: false
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 50000
+          timeout: 30000
+          writetimeout: 50000
+          ssl:
+            enable: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+            port: 465
+          starttls:
+            enable: true
+            required: true
+  ### multipart
+  servlet:
+    multipart:
+      ### File upload size limit
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  ### thymeleaf
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+
+###### sms ######
+sms:
+  ali:
+    access-key: xxx
+    access-secret: xxx
+    # 短信服务所需参数
+    sign-name: xxx
+    domain: dysmsapi.aliyuncs.com
+    version: 2017-05-25
+    action: SendSms
+    region-id: cn-hangzhou
+    # 业务参数(产品名称)
+    product-name: TLD
+    # 验证码长度
+    code-length: 6
+    template:
+      login:
+        subject: 登录验证
+        code: xxx
+      registry:
+        subject: 注册验证
+        code: xxx
+
+
+###### sms ######
+
+###### email ######
+email:
+  template:
+    name: email-template
+    from: xxx
+    contact-info: xxx
+    code-length: 6
+    # 单位: 分钟
+    effective-time: 5
+    registry:
+      subject: 注册验证码
+      operation: 注册
+    login:
+      subject: 登录验证码
+      operation: 登录
+    change-password:
+      subject: 修改密码验证码
+      operation: 修改密码
+
+###### email ######

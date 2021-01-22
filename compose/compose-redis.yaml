@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+   redis-server:
+     image: docker.io/redis:latest
+     container_name: redis-server
+     command: redis-server --requirepass "tldollarredis123456"
+     volumes:
+        # echo 'Asia/Shanghai' > /etc/timezone/timezone
+        - /etc/timezone/timezone:/etc/timezone
+        - /etc/localtime:/etc/localtime
+        - ./redis_data:/var/lib/redis
+     ports:
+       - 6379:6379
+     restart: always

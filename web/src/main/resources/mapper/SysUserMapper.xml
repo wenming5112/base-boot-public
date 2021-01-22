@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.web.dao.SysUserMapper">
+
+    <resultMap id="sysUserMap" type="com.base.common.entity.sys.SysUser">
+
+    </resultMap>
+
+    <insert id="setUserRoles">
+        INSERT INTO t_sys_user_role(user_id,role_id)
+        VALUES
+        <foreach collection="roles" item="role" separator=",">
+            (#{uid},#{role})
+        </foreach>
+    </insert>
+
+    <select id="getUserRole" resultType="com.base.web.entity.vo.SysRoleVO">
+        SELECT
+            DISTINCT
+            role.id          AS roleId,
+            role.role_name   AS roleName,
+            role.role_desc   AS roleDesc,
+            role.create_time AS createTime,
+            role.modify_time AS modifyTime
+        FROM
+            t_sys_role AS role
+            INNER JOIN t_sys_user_role AS ur
+                ON ur.role_id = role.id
+            INNER JOIN t_sys_user AS u
+                ON u.id = ur.user_id
+        WHERE u.id = #{uid} AND u.valid = 1 AND ur.valid = 1 AND role.valid = 1
+    </select>
+
+    <select id="getUserRoleIds" resultType="java.lang.String">
+        SELECT role.id
+        FROM t_sys_role AS role
+            LEFT JOIN t_sys_user_role AS ur
+                ON ur.role_id = role.id
+        WHERE ur.user_id = #{uid} AND role.valid = 1
+    </select>
+
+    <resultMap id="RoleMap" type="com.base.common.entity.sys.SysRole">
+        <result column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_desc" property="roleDesc"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <!--需要关闭懒加载，不然对象不是原来的对象-->
+        <!-- 1-1 -->
+        <!--<association property="user" column="user_id" javaType="cn.xleos.mybatis.po.User" select="getUserById" />-->
+        <!-- 1-n -->
+        <!--<collection property="resources" column="id" javaType="list" fetchType="lazy" select="getRolesMenus"/>-->
+        <collection property="menus" column="id" javaType="java.util.HashSet" fetchType="eager" select="getRolesMenus"/>
+    </resultMap>
+
+    <select id="getRolesMenus" resultType="com.base.common.entity.sys.SysMenu"
+            parameterType="java.lang.String">
+        SELECT
+            menu.id          AS id,
+            menu.title       AS title,
+            menu.path        AS path,
+            menu.component   AS component,
+            menu.permission  AS permission,
+            menu.parent_id   AS parentId,
+            menu.type        AS type,
+            menu.description AS description,
+            menu.create_time AS createTime,
+            menu.modify_time AS modifyTime
+        FROM t_sys_menu AS menu
+        WHERE menu.id IN (SELECT rm.menu_id
+                          FROM t_sys_role_menu AS rm
+                          WHERE rm.role_id = #{rid})
+    </select>
+
+    <select id="selectUserAllRoles" resultMap="RoleMap">
+        SELECT *
+        FROM t_sys_role AS role
+        WHERE id IN (SELECT ur.role_id
+                     FROM t_sys_user_role AS ur
+                     WHERE ur.user_id = #{uid})
+    </select>
+
+    <resultMap id="UserInfoMap" type="com.base.web.entity.vo.UserInfoVO">
+        <result column="id" property="uid"/>
+        <result column="username" property="username"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email"/>
+        <result column="real_name" property="realName"/>
+        <result column="status" property="userStatus"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modify_time" property="modifyTime"/>
+        <!--需要关闭懒加载，不然对象不是原来的对象-->
+        <!-- 1-1 -->
+        <collection property="roles" column="id" fetchType="eager" javaType="java.util.HashSet" select="selectUserAllRoles"/>
+    </resultMap>
+
+    <resultMap id="SysUserInfo" type="com.base.common.entity.sys.SysUser">
+        <result column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="sex" property="sex"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email"/>
+        <result column="real_name" property="realName"/>
+        <result column="status_id" property="statusId"/>
+        <result column="valid" property="valid"/>
+        <!--需要关闭懒加载，不然对象不是原来的对象-->
+        <!-- 1-1 -->
+        <collection property="roles" column="id" fetchType="eager" javaType="java.util.HashSet" select="selectUserAllRoles"/>
+    </resultMap>
+
+    <select id="selectMyUserInfo" resultMap="UserInfoMap" parameterType="java.lang.String">
+        SELECT *
+        FROM t_sys_user
+        WHERE id = #{uid}
+    </select>
+
+    <select id="selectMyUserInfoByUsername" resultMap="SysUserInfo" parameterType="java.lang.String">
+        SELECT *
+        FROM t_sys_user
+        WHERE username = #{username}
+    </select>
+
+    <select id="selectMyUserInfoByTel" resultMap="SysUserInfo" parameterType="java.lang.String">
+        SELECT *
+        FROM t_sys_user
+        WHERE telephone = #{telephone}
+    </select>
+
+    <select id="selectMyUserInfoByMail" resultMap="SysUserInfo" parameterType="java.lang.String">
+        SELECT *
+        FROM t_sys_user
+        WHERE email = #{email}
+    </select>
+
+    <!-- 查询所有的用户 -->
+    <select id="selectAllUsers" resultMap="UserInfoMap">
+        SELECT *
+        FROM t_sys_user
+        WHERE valid = 1
+        <if test="username != null and username != ''">
+            AND user_name LIKE
+            CONCAT('%',#{username},'%')
+        </if>
+        <if test="telephone != null and telephone != ''">
+            AND telephone LIKE
+            CONCAT('%',#{telephone},'%')
+        </if>
+        <if test="email != null and email != ''">
+            AND email LIKE
+            CONCAT('%',#{email},'%')
+        </if>
+        ORDER BY create_time DESC
+    </select>
+
+    <insert id="addBackUser" parameterType="com.base.common.entity.sys.SysUser" keyColumn="id"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createTime != null ">
+                create_time,
+            </if>
+            <if test="valid != null">
+                valid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="telephone != null">
+                #{telephone},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="creator != null">
+                #{creator},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="valid != null">
+                #{valid},
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

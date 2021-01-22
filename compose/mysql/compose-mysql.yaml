@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  mysql:
+     #image: docker.io/mysql:5.7
+     image: docker.io/mysql:8.0.22
+     container_name: mysql
+     restart: always
+     env_file:
+       - ./env/mysql.env
+     volumes:
+       # echo 'Asia/Shanghai' > /etc/timezone/timezone
+       - /etc/timezone/timezone:/etc/timezone
+       - /etc/localtime:/etc/localtime
+       # init sql
+       - ./init:/docker-entrypoint-initdb.d/:ro
+       # db conf
+       - ./conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf:ro
+       # db data
+       - ./data:/var/lib/mysql/:rw
+       # logs
+       - ./logs:/var/log/mysql/:rw
+     ports:
+       - "11306:3306"

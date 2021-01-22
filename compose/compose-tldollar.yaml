@@ -1,0 +1,13 @@
+version: '2'
+services:
+   platform:
+     container_name: tldollar
+     image: tldollar:1.0
+     volumes:
+       # echo 'Asia/Shanghai' > /etc/timezone/timezone
+       - /etc/timezone/timezone:/etc/timezone
+       - /etc/localtime:/etc/localtime
+       - ./data/tmp_wallet:/home/tldollar/release/data/tmp_wallet
+     ports:
+       - 8030:8030
+     # restart: always

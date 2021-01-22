@@ -1,0 +1,24 @@
+###### Token expireTime ######
+jwt:
+  token:
+    expire-time: 1800
+
+
+###### rsa 公私钥 ######
+rsa:
+  private-key: xxx
+  public-key: xxx
+
+
+###### 文件上传(local) ######
+upload:
+  path: xxx
+  url: xxx
+
+
+###### 文件上传(Ali OSS) ######
+ali:
+  oss:
+    access-key: xxx
+    access-secret: xxx
+

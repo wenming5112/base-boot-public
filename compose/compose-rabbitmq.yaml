@@ -1,0 +1,22 @@
+version: '2'
+services:
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq-server
+    volumes:
+      # echo 'Asia/Shanghai' > /etc/timezone/timezone
+      - /etc/timezone/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+      - ./data:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=tldollar
+      - RABBITMQ_DEFAULT_PASS=tldollarrbmq123456
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"

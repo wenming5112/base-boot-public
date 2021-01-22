@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.web.dao.SysMenuMapper">
+
+    <resultMap id="sysMenuMap" type="com.base.common.entity.sys.SysMenu">
+
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="sysMenuMap">
+        SELECT
+            m.id         AS id,
+            m.permission AS permission
+        FROM
+            t_sys_menu AS m
+            LEFT JOIN t_sys_role_menu AS rm
+                ON rm.menu_id = m.id
+            LEFT JOIN t_sys_role AS r
+                ON r.id = rm.role_id
+            LEFT JOIN t_sys_user_role AS ur
+                ON ur.role_id = r.id
+            LEFT JOIN t_sys_user AS u
+                ON u.id = ur.user_id
+        WHERE u.user_name = #{username}
+    </select>
+
+    <select id="getUserMenu" resultType="com.base.web.entity.vo.SysMenuVO">
+        SELECT
+            DISTINCT
+            m.id          AS menuId,
+            m.title       AS menuName,
+            m.permission  AS permission,
+            m.type        AS type,
+            m.parent_id   AS pid,
+            m.description AS description,
+            m.create_time AS createTime,
+            m.modify_time AS modifyTime
+        FROM
+            t_sys_menu AS m
+            LEFT JOIN t_sys_role_menu AS rm
+                ON rm.menu_id = m.id
+            LEFT JOIN t_sys_role AS r
+                ON r.id = rm.role_id
+            LEFT JOIN t_sys_user_role AS ur
+                ON ur.role_id = r.id
+            LEFT JOIN t_sys_user AS u
+                ON u.id = ur.user_id
+            LEFT JOIN t_sys_menu AS m2
+                ON m.parent_id = m2.id
+        WHERE u.id = #{uid}
+    </select>
+
+    <select id="selectMenuByPid" resultMap="sysMenuMap">
+        SELECT *
+        FROM t_sys_menu AS m
+        WHERE m.parent_id = #{pid} AND m.valid = 1
+    </select>
+
+
+</mapper>

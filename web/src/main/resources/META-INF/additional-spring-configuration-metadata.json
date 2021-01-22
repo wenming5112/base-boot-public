@@ -1,0 +1,74 @@
+{
+  "properties": [
+    {
+      "name": "swagger-doc.title",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.title."
+    },
+    {
+      "name": "swagger-doc.description",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.description."
+    },
+    {
+      "name": "swagger-doc.version",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.version."
+    },
+    {
+      "name": "swagger-doc.contact.name",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.contact.name."
+    },
+    {
+      "name": "swagger-doc.contact.url",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.contact.url."
+    },
+    {
+      "name": "swagger-doc.contact.email",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.contact.email."
+    },
+    {
+      "name": "upload.local.path",
+      "type": "java.lang.String",
+      "description": "Description for upload.local.path."
+    },
+    {
+      "name": "upload.local.url",
+      "type": "java.lang.String",
+      "description": "Description for upload.local.url."
+    },
+    {
+      "name": "upload.oss.ali-oss.access-key",
+      "type": "java.lang.String",
+      "description": "Description for upload.oss.ali-oss.access-key."
+    },
+    {
+      "name": "upload.oss.ali-oss.access-secret",
+      "type": "java.lang.String",
+      "description": "Description for upload.oss.ali-oss.access-secret."
+    },
+    {
+      "name": "upload.oss.ali-oss.end-point",
+      "type": "java.lang.String",
+      "description": "Description for upload.oss.ali-oss.end-point."
+    },
+    {
+      "name": "upload.oss.ali-oss.bucket-name",
+      "type": "java.lang.String",
+      "description": "Description for upload.oss.ali-oss.bucket-name."
+    },
+    {
+      "name": "upload.oss.ali-oss.url",
+      "type": "java.lang.String",
+      "description": "Description for upload.oss.ali-oss.url."
+    },
+    {
+      "name": "swagger-doc.url",
+      "type": "java.lang.String",
+      "description": "Description for swagger-doc.url."
+    }
+  ]
+}

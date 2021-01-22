@@ -1,0 +1,148 @@
+
+server:
+  port: 8818
+  servlet:
+    context-path: /
+
+spring:
+  profiles:
+      include: [message-dev]
+  ### datasource
+  datasource:
+    druid:
+      db-type: mysql
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://192.168.1.191:11306/base_boot?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true
+      username: root
+      password: 123456
+      initial-size: 1
+      min-idle: 3
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,slf4j
+      # connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 是否开启sql监控界面
+      stat-view-servlet:
+        enabled: true
+  ### redis
+  redis:
+    host: 192.168.1.191
+    database: 0
+    port: 6379
+    password: 123456
+    # 连接超时时间
+    timeout: 2000ms
+    jedis:
+      pool:
+        # 最大连接数
+        max-active: 20
+        # 最大阻塞等待时间(负数表示没限制)
+        max-wait: 1000ms
+        # 最大空闲
+        max-idle: 8
+        # 最小空闲
+        min-idle: 5
+
+  ### multipart
+  servlet:
+    multipart:
+      ### File upload size limit
+      max-file-size: 100MB
+      max-request-size: 100MB
+      enabled: true
+  ### thymeleaf
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    cache: false
+  ### rabbitmq
+  rabbitmq:
+    host: 192.168.1.191
+    port: 5672
+    username: root
+    password: 123456
+
+###### mybatis-plus ######
+mybatis-plus:
+  configuration:
+    # Print SQL statement (just for testing)
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+###### mybatis-plus ######
+
+###### log ######
+logging:
+  level:
+    root: error
+    org.springframework.web: error
+    com.base: debug
+  file:
+    path: F:/log/base-boot
+###### log ######
+
+###### ip2region ######
+ip2region:
+  external: false
+  index-block-size: 4096
+  total-header-size: 8192
+  location: classpath:ip2region/ip2region.db
+###### ip2region ######
+
+###### swagger-ui ######
+#springfox:
+#  documentation:
+#    swagger-ui:
+#      enabled: true
+#    open-api:
+#      enabled: true
+### doc
+swagger-doc:
+  access-token-key: ""
+  base-package: "com.base.web.controller"
+  title: "基础服务API"
+  description: "基础服务API"
+  url: "http://localhost:${server.port}/swagger-ui.html"
+  version: "0.0.1"
+  contact:
+    name: "ming"
+    url: "http://www.itwetouch.com/"
+    email: "an23gn@163.com"
+###### swagger-ui ######
+
+###### upload ######
+upload:
+  ### Local file upload
+  local:
+    path: E:/xxx
+    url: http://file.itwetouch.com/
+  ### Ali OSS upload
+  ### SDK-download: https://github.com/aliyun/aliyun-oss-java-sdk
+  oss:
+    ali-oss:
+      access-key: xxx
+      access-secret: xxx
+      bucket-name: xxx
+      endpoint: https://oss-cn-hangzhou.aliyuncs.com
+      url: https://${upload.oss.ali-oss.bucket-name}.oss-cn-hangzhou.aliyuncs.com
+###### upload ######
+
+###### security ######
+security:
+  api:
+    rsa:
+      private-key: xxx
+      public-key: xxx
+
+###### security ######
+

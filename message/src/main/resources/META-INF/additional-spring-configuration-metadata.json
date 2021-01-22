@@ -1,0 +1,124 @@
+{
+  "properties": [
+    {
+      "name": "email.template.name",
+      "type": "java.lang.String",
+      "description": "Description for email.template.name."
+    },
+    {
+      "name": "email.template.from",
+      "type": "java.lang.String",
+      "description": "Description for email.template.from."
+    },
+    {
+      "name": "email.template.contact-info",
+      "type": "java.lang.String",
+      "description": "Description for email.template.contact-info."
+    },
+    {
+      "name": "email.template.code-length",
+      "type": "java.lang.String",
+      "description": "Description for email.template.code-length."
+    },
+    {
+      "name": "email.template.effective-time",
+      "type": "java.lang.String",
+      "description": "Description for email.template.effective-time."
+    },
+    {
+      "name": "email.template.registry.subject",
+      "type": "java.lang.String",
+      "description": "Description for email.template.registry.subject."
+    },
+    {
+      "name": "email.template.registry.operation",
+      "type": "java.lang.String",
+      "description": "Description for email.template.registry.operation."
+    },
+    {
+      "name": "email.template.login.subject",
+      "type": "java.lang.String",
+      "description": "Description for email.template.login.subject."
+    },
+    {
+      "name": "email.template.login.operation",
+      "type": "java.lang.String",
+      "description": "Description for email.template.login.operation."
+    },
+    {
+      "name": "email.template.change-password.subject",
+      "type": "java.lang.String",
+      "description": "Description for email.template.change-password.subject."
+    },
+    {
+      "name": "email.template.change-password.operation",
+      "type": "java.lang.String",
+      "description": "Description for email.template.change-password.operation."
+    },
+    {
+      "name": "sms.ali.access-key",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.access-key."
+    },
+    {
+      "name": "sms.ali.access-secret",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.access-secret."
+    },
+    {
+      "name": "sms.ali.sign-name",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.sign-name."
+    },
+    {
+      "name": "sms.ali.domain",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.domain."
+    },
+    {
+      "name": "sms.ali.version",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.version."
+    },
+    {
+      "name": "sms.ali.action",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.action."
+    },
+    {
+      "name": "sms.ali.region-id",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.region-id."
+    },
+    {
+      "name": "sms.ali.product-name",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.product-name."
+    },
+    {
+      "name": "sms.ali.code-length",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.code-length."
+    },
+    {
+      "name": "sms.ali.template.login.subject",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.template.login.subject."
+    },
+    {
+      "name": "sms.ali.template.login.code",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.template.login.code."
+    },
+    {
+      "name": "sms.ali.template.registry.subject",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.template.registry.subject."
+    },
+    {
+      "name": "sms.ali.template.registry.code",
+      "type": "java.lang.String",
+      "description": "Description for sms.ali.template.registry.code."
+    }
+  ]
+}

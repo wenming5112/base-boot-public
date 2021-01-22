@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.web.dao.SysRoleMapper">
+
+    <resultMap id="sysRoleMap" type="com.base.common.entity.sys.SysRole">
+
+    </resultMap>
+
+    <select id="selectByUsername" resultMap="sysRoleMap">
+        SELECT
+            r.id        AS id,
+            r.role_name AS roleName
+        FROM
+            t_sys_role AS r
+            LEFT JOIN t_sys_user_role AS ur
+                ON ur.role_id = r.id
+            LEFT JOIN t_sys_user AS u
+                ON u.id = ur.user_id
+        WHERE u.user_name = #{username}
+    </select>
+
+    <!--根据menu查询角色-->
+    <select id="queryRolesByMenu" resultMap="sysRoleMap">
+        SELECT
+            r.id        AS id,
+            r.role_name AS roleName,
+            r.valid     AS valid
+        FROM
+            t_sys_role AS r
+            INNER JOIN t_sys_role_menu AS rm
+                ON rm.role_id = r.id
+        WHERE rm.menu_id = #{mid} AND rm.valid = 1 AND r.valid = 1
+        GROUP BY r.role_name
+    </select>
+
+    <insert id="setRoleMenu">
+        INSERT INTO t_sys_role_menu(role_id,menu_id,creator)
+        VALUES
+        <foreach collection="menus" item="menu" separator=",">
+            (#{rid},#{menu},#{operator})
+        </foreach>
+    </insert>
+
+    <select id="getRoleMenu" resultType="com.base.web.entity.vo.SysMenuVO">
+        SELECT
+            DISTINCT
+            menu.id          AS menuId,
+            menu.title       AS title,
+            menu.path        AS path,
+            menu.component   AS component,
+            menu.title       AS title,
+            menu.permission  AS permission,
+            menu.parent_id   AS pid,
+            menu.type        AS type,
+            menu.create_time AS createTime,
+            menu.modify_time AS modifyTime
+        FROM
+            t_sys_menu AS menu
+            LEFT JOIN t_sys_role_menu AS rm
+                ON menu.id = rm.menu_id
+            LEFT JOIN t_sys_role AS role
+                ON role.id = rm.role_id
+        WHERE role.id = #{rid} AND menu.valid = 1 AND rm.valid = 1 AND role.valid = 1
+    </select>
+
+    <select id="getRoleMenuIds">
+        SELECT rm.menu_id AS menuId
+        FROM
+            t_sys_role_menu AS rm
+            LEFT JOIN t_sys_role AS role
+                ON role.id = rm.role_id
+        WHERE role.id = #{rid} AND role.valid = 1
+    </select>
+
+</mapper>
